@@ -47,7 +47,7 @@ class AlienInvasion:
         while True:
             self._check_events()
 
-            if self.stats.game_active:
+            if self.stats.game_active and not self.stats.g_over:
                 self.ship.update()
                 self._update_bullets()
                 self._update_aliens()
@@ -115,6 +115,7 @@ class AlienInvasion:
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_pos = pygame.mouse.get_pos()
                 self._check_play_button(mouse_pos)
+                self._check_game_over(mouse_pos)
 
     def _check_play_button(self, mouse_pos):
         """Start a new game when the player clicks 'Play'."""
@@ -124,6 +125,7 @@ class AlienInvasion:
             self.stats.reset_stats()
             self.settings.initialize_dynamic_settings()
             self.stats.game_active = True
+            self.stats.g_over = False
             self.sb.prep_score()
             self.sb.prep_level()
             self.sb.prep_ships()
@@ -149,7 +151,8 @@ class AlienInvasion:
             self._update_screen()
             self.stats.reset_stats()
             self.settings.initialize_dynamic_settings()
-            self.stats.game_active = True
+            self.stats.game_active = False
+            self.stats.g_over = False
             self.sb.prep_score()
             self.sb.prep_level()
             self.sb.prep_ships()
@@ -276,7 +279,7 @@ class AlienInvasion:
             self.play_button.draw_button()
 
         # Draw the game over screen if the player's out of ships.
-        if self.stats.ships_left < 0:
+        if self.stats.g_over:
             self.game_over.draw_go_screen()
 
         pygame.display.flip()
