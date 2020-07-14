@@ -10,6 +10,8 @@ from button import Button
 from ship import Ship
 from bullet import Bullet
 from alien import Alien
+from game_over import GameOver
+import sound_effects as sfx
 
 class AlienInvasion:
     """Overall class to manage game assets and behavior."""
@@ -36,6 +38,9 @@ class AlienInvasion:
 
         # Make the Play button.
         self.play_button = Button(self, "Play")
+
+        # Make the Game Over screen.
+        self.game_over = GameOver(self, "GAME OVER")
 
     def run_game(self):
         """Start the main loop for the game."""
@@ -71,6 +76,7 @@ class AlienInvasion:
                 self.stats.score += self.settings.alien_points * len(aliens)
             self.sb.prep_score()
             self.sb.check_high_score()
+            sfx.alien_sound.play()
 
         if not self.aliens:
             # Destroy existing bullets and create new fleet.
@@ -133,6 +139,29 @@ class AlienInvasion:
             # Hide the mouse cursor.
             pygame.mouse.set_visible(False)
 
+    def _check_game_over(self, mouse_pos):
+        """Start a new game when the player clicks
+        anywhere on the game over screen.
+        """
+        go_clicked = self.game_over.rect.collidepoint(mouse_pos)
+        if go_clicked and self.stats.g_over:
+            # Reset the game statistics.
+            self._update_screen()
+            self.stats.reset_stats()
+            self.settings.initialize_dynamic_settings()
+            self.stats.game_active = True
+            self.sb.prep_score()
+            self.sb.prep_level()
+            self.sb.prep_ships()
+
+            # Get rid of any remaining aliens and bullets.
+            self.aliens.empty()
+            self.bullets.empty()
+
+            # Create a new fleet and center the ship.
+            self._create_fleet()
+            self.ship.center_ship()
+
     def _check_keydown_events(self, event):
         """Respond to keypresses."""
         if event.key == pygame.K_RIGHT:
@@ -156,6 +185,7 @@ class AlienInvasion:
         if len(self.bullets) < self.settings.bullets_allowed:
             new_bullet = Bullet(self)
             self.bullets.add(new_bullet)
+            sfx.bullet_sound.play()
 
     def _create_fleet(self):
         """Create the fleet of aliens."""
@@ -218,7 +248,7 @@ class AlienInvasion:
             # Pause.
             sleep(0.5)
         else:
-            self.stats.game_active = False
+            self.stats.g_over = True
             pygame.mouse.set_visible(True)
 
     def _check_aliens_bottom(self):
@@ -244,6 +274,10 @@ class AlienInvasion:
         # Draw the play button if the game is inactive.
         if not self.stats.game_active:
             self.play_button.draw_button()
+
+        # Draw the game over screen if the player's out of ships.
+        if self.stats.ships_left < 0:
+            self.game_over.draw_go_screen()
 
         pygame.display.flip()
 

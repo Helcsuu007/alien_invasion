@@ -9,6 +9,9 @@ class GameStats:
         # Start Alien Invasion in an inactive state.
         self.game_active = False
 
+        # Initialize Game Over screen.
+        self.g_over = False
+
         # The high score should never be reset,
         # that's why I added it here.
         self.high_score = 0
