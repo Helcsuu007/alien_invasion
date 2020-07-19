@@ -1,6 +1,6 @@
 <b>Alien Invasion</b>
 
-A simple, arcade-style game built with Python and the PyGame module (based on the code from the beginner Python programming book "Python Crash Course" by Eric Matthes). I've already added a game over screen too (to expand the original code), and I'm planning to further develop/customize it in the coming months as I learn more about programming.
+A simple, arcade-style game built with Python and the PyGame module (based on the code from the beginner Python programming book "Python Crash Course" by Eric Matthes). I've added a game over screen too (to expand the original code), and I'm planning to further develop/customize it in the coming months as I learn more about programming.
 
 To start the game: <b>Run</b> <em>"alien_invasion.py"</em>.
 
