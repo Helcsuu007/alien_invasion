@@ -1,12 +1,12 @@
-Alien Invasion
+<b>Alien Invasion</b>
 
 A simple, arcade-style game built with Python and the PyGame module (based on the code from the beginner Python programming book "Python Crash Course" by Eric Matthes). I'm planning to expand and further develop/customize it in the coming months (as I learn more about programming).
 
-To start the game: Run "alien_invasion.py".
+To start the game: <b>Run</b> <em>"alien_invasion.py"</em>.
 
 
-Controls:
+<b>Controls</b>:
 
-To move the ship: press L/R arrow keys.
+To move the ship: press <em>L/R arrow keys</em>.
 
-To fire bullets: press SPACE. 
+To fire bullets: press <em>SPACE</em>. 
